@@ -1,0 +1,166 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey there",
+        "Good day",
+        "What's up?",
+        "How are you?"
+      ],
+      "responses": [
+        "Hello! How can I help with your biology questions?",
+        "Hi there! Need help with biology?",
+        "Hey! Ask me any biology question from chapters 1 to 10.",
+        "Welcome! Ready to explore biology together?"
+      ]
+    },
+    {
+      "tag": "chapter1_life",
+      "patterns": [
+        "What is biology?",
+        "Explain biology",
+        "Define biology",
+        "What does biology mean?"
+      ],
+      "responses": [
+        "Biology is the scientific study of life and living organisms.",
+        "Biology means the study of living things and their interactions with the environment."
+      ]
+    },
+    {
+      "tag": "chapter1_branches",
+      "patterns": [
+        "What are the branches of biology?",
+        "Name the major branches of biology",
+        "What are the main divisions of biology?"
+      ],
+      "responses": [
+        "The major branches of biology are botany, zoology, and microbiology.",
+        "Biology has three main branches: botany (study of plants), zoology (study of animals), and microbiology (study of microorganisms)."
+      ]
+    },
+    {
+      "tag": "chapter2_cell",
+      "patterns": [
+        "What is a cell?",
+        "Define cell",
+        "Explain the meaning of cell"
+      ],
+      "responses": [
+        "A cell is the basic structural, functional, and biological unit of all living organisms.",
+        "Cells are the smallest units of life that can carry out all life processes."
+      ]
+    },
+    {
+      "tag": "chapter2_cell_types",
+      "patterns": [
+        "What are the types of cells?",
+        "Name types of cells",
+        "Different types of cells"
+      ],
+      "responses": [
+        "There are two main types of cells: prokaryotic and eukaryotic cells.",
+        "Cells can be prokaryotic (without a nucleus) or eukaryotic (with a nucleus)."
+      ]
+    },
+    {
+      "tag": "chapter3_tissues",
+      "patterns": [
+        "What is a tissue?",
+        "Define tissue in biology",
+        "Explain the meaning of tissue"
+      ],
+      "responses": [
+        "A tissue is a group of similar cells that perform a specific function.",
+        "In biology, tissue refers to a collection of similar cells working together to carry out a particular function."
+      ]
+    },
+    {
+      "tag": "chapter4_transport",
+      "patterns": [
+        "What is transport in biology?",
+        "Explain transport system in plants",
+        "Describe transportation in plants"
+      ],
+      "responses": [
+        "Transport in biology refers to the movement of substances like water, minerals, and food within organisms.",
+        "In plants, transport involves xylem and phloem for movement of water and nutrients."
+      ]
+    },
+    {
+      "tag": "chapter5_respiration",
+      "patterns": [
+        "What is respiration?",
+        "Explain respiration in living things",
+        "Define respiration"
+      ],
+      "responses": [
+        "Respiration is the process by which living organisms release energy from food.",
+        "It is a biochemical process that converts glucose into energy."
+      ]
+    },
+    {
+      "tag": "chapter6_excretion",
+      "patterns": [
+        "What is excretion?",
+        "Explain excretion in humans",
+        "Define excretion"
+      ],
+      "responses": [
+        "Excretion is the removal of metabolic waste products from the body.",
+        "In humans, excretion is carried out mainly by the kidneys."
+      ]
+    },
+    {
+      "tag": "chapter7_growth",
+      "patterns": [
+        "What is growth in biology?",
+        "Define growth",
+        "Explain biological growth"
+      ],
+      "responses": [
+        "Growth is an irreversible increase in size and mass of an organism.",
+        "It involves cell division, elongation, and differentiation."
+      ]
+    },
+    {
+      "tag": "chapter8_reproduction",
+      "patterns": [
+        "What is reproduction?",
+        "Define reproduction",
+        "Explain reproduction in biology"
+      ],
+      "responses": [
+        "Reproduction is the biological process by which organisms produce offspring.",
+        "It ensures the continuation of a species."
+      ]
+    },
+    {
+      "tag": "chapter9_nutrition",
+      "patterns": [
+        "What is nutrition?",
+        "Explain nutrition in biology",
+        "Define nutrition"
+      ],
+      "responses": [
+        "Nutrition is the process by which living organisms obtain and use food for growth and energy.",
+        "It includes autotrophic and heterotrophic modes of nutrition."
+      ]
+    },
+    {
+      "tag": "chapter10_photosynthesis",
+      "patterns": [
+        "What is photosynthesis?",
+        "Explain photosynthesis",
+        "Define photosynthesis"
+      ],
+      "responses": [
+        "Photosynthesis is the process by which green plants make food using sunlight, carbon dioxide, and water.",
+        "It takes place in the chloroplasts of plant cells."
+      ]
+    }
+  ]
+}
