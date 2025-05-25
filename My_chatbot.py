@@ -1,25 +1,28 @@
-
 import json
 import random
 import streamlit as st
+import re
+import cohere
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-import re
 
 # Load intents
 with open("intents.json", "r") as file:
     intents = json.load(file)
 
+# Load your Cohere API key (replace with your actual key)
+COHERE_API_KEY = "your-cohere-api-key"
+co = cohere.Client(COHERE_API_KEY)
+
 # Preprocess data
 tags = []
 patterns = []
-
 for intent in intents["intents"]:
     for pattern in intent["patterns"]:
-        tags.append(intent['tag'])
+        tags.append(intent["tag"])
         patterns.append(pattern)
 
-# Train model
+# Train ML model
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(patterns)
 y = tags
@@ -27,7 +30,7 @@ y = tags
 clf = LogisticRegression(random_state=0, max_iter=10000)
 clf.fit(X, y)
 
-# Tips & quizzes
+# Biology tips & quiz questions
 biology_tips = [
     "Photosynthesis occurs in the chloroplasts of plant cells.",
     "The cell is the basic unit of life.",
@@ -44,7 +47,7 @@ quiz_questions = {
     "What process moves water through membranes?": "Osmosis"
 }
 
-# Initialize session state
+# Session states
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -54,35 +57,43 @@ if "quiz_mode" not in st.session_state:
 if "current_question" not in st.session_state:
     st.session_state.current_question = None
 
-# Chatbot
+# ML Chatbot
 def chatbot_ml(input_text):
     vec = vectorizer.transform([input_text])
     tag = clf.predict(vec)[0]
     for intent in intents["intents"]:
         if intent["tag"] == tag:
             return random.choice(intent["responses"])
-    return "I'm not sure how to respond to that."
+    return None  # fallback to Cohere
 
+# Pattern + Cohere fallback
 def chatbot_pattern(user_input):
     user_tokens = re.findall(r"\w+", user_input.lower())
     for intent in intents["intents"]:
-        for pattern in intent['patterns']:
+        for pattern in intent["patterns"]:
             pattern_tokens = re.findall(r"\w+", pattern.lower())
             if set(pattern_tokens).intersection(user_tokens):
-                return random.choice(intent['responses'])
-    return chatbot_ml(user_input)
+                return random.choice(intent["responses"])
+    # Fallback to Cohere
+    try:
+        with st.spinner("Thinking..."):
+            response = co.generate(
+                model="command-r-plus",
+                prompt=f"Answer the following biology question in simple terms:\n\n{user_input}",
+                max_tokens=100
+            )
+            return response.generations[0].text.strip()
+    except Exception as e:
+        return "Sorry, I couldn't fetch an answer. Please try again later."
 
-# UI
+# App layout
 def main():
-    st.set_page_config(page_title="Biology Chatbot", page_icon="🧬", layout="centered")
+    st.set_page_config(page_title="BioBot", page_icon="🧬", layout="centered")
+    st.title("🧬 BioBot – Your Friendly Biology Assistant")
+    st.info("💡 Tip: " + random.choice(biology_tips))
 
-    st.title("🧬 Welcome to BioBot!")
-    st.markdown("**Your friendly biology assistant. Ask me anything from Chapters 1 to 10!**")
-    st.info("💡 Tip of the day: " + random.choice(biology_tips))
-
-    st.markdown("### 📖 Select Chapter")
-    chapter = st.selectbox("Choose a chapter", ["All", "Chapter 1", "Chapter 2", "Chapter 3", "Chapter 4", "Chapter 5", 
-                                                "Chapter 6", "Chapter 7", "Chapter 8", "Chapter 9", "Chapter 10"])
+    if st.button("🧹 Clear Chat"):
+        st.session_state.chat_history = []
 
     col1, col2 = st.columns(2)
     with col1:
@@ -109,11 +120,16 @@ def main():
         st.session_state.chat_history.append(("user", user_input))
         st.session_state.chat_history.append(("bot", response))
 
+    # Display chat history
     for speaker, message in st.session_state.chat_history:
         if speaker == "user":
-            st.markdown(f"<div style='background-color:#DCF8C6;padding:10px;border-radius:10px;margin-bottom:10px'><strong>You:</strong> {message}</div>", unsafe_allow_html=True)
+            st.markdown(
+                f"<div style='background-color:#DCF8C6;padding:10px;border-radius:10px;margin:5px'><strong>👤 You:</strong> {message}</div>",
+                unsafe_allow_html=True)
         else:
-            st.markdown(f"<div style='background-color:#F1F0F0;padding:10px;border-radius:10px;margin-bottom:10px'><strong>Bot:</strong> {message}</div>", unsafe_allow_html=True)
+            st.markdown(
+                f"<div style='background-color:#F1F0F0;padding:10px;border-radius:10px;margin:5px'><strong>🤖 Bot:</strong> {message}</div>",
+                unsafe_allow_html=True)
 
     if st.session_state.quiz_mode and st.session_state.current_question:
         st.markdown(f"### 🤔 Quiz Question:\n**{st.session_state.current_question}**")
